@@ -42,7 +42,7 @@ foo
 // TestGetSet tests that what spkez writes can be read with the same password.
 func TestGetSet(t *testing.T) {
 	c := new(echocdr)
-	swap(t, &rnr, cmdio.NewRunner(context.Background(), nil, c))
+	swap(t, &rnr, new(cmdio.Runner).WithCommander(c))
 	dir := t.TempDir()
 	t.Setenv("SPKEZPASS", "test passphrase")
 
@@ -76,7 +76,7 @@ func TestGetSet(t *testing.T) {
 // password.
 func TestGetSetFail(t *testing.T) {
 	c := new(echocdr)
-	swap(t, &rnr, cmdio.NewRunner(context.Background(), nil, c))
+	swap(t, &rnr, new(cmdio.Runner).WithCommander(c))
 	dir := t.TempDir()
 	t.Setenv("SPKEZPASS", "test passphrase")
 
@@ -113,7 +113,7 @@ func TestGetSetFail(t *testing.T) {
 
 func TestDel(t *testing.T) {
 	c := new(echocdr)
-	swap(t, &rnr, cmdio.NewRunner(context.Background(), nil, c))
+	swap(t, &rnr, new(cmdio.Runner).WithCommander(c))
 	dir := t.TempDir()
 	writeKey(t, dir, "foo", "foo value")
 	writeKey(t, dir, "bar", "bar value")
