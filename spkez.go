@@ -15,6 +15,7 @@ import (
 	"strings"
 
 	"golang.org/x/crypto/pbkdf2"
+
 	"lesiw.io/cmdio"
 	"lesiw.io/cmdio/sys"
 	repo "lesiw.io/repo/lib"
@@ -52,7 +53,7 @@ const (
 func main() {
 	cmdio.Trace = io.Discard
 	if err := run(os.Args); err != nil {
-		fmt.Fprintln(stderr, err)
+		_, _ = fmt.Fprintln(stderr, err)
 		os.Exit(1)
 	}
 }
@@ -60,10 +61,10 @@ func main() {
 func run(args []string) error {
 	if len(os.Args) > 1 {
 		if os.Args[1] == "-V" || os.Args[1] == "--version" {
-			fmt.Fprintln(stdout, version)
+			_, _ = fmt.Fprintln(stdout, version)
 			return nil
 		} else if os.Args[1] == "-h" || os.Args[1] == "--help" {
-			fmt.Fprintln(stderr, usage)
+			_, _ = fmt.Fprintln(stderr, usage)
 			return nil
 		}
 	}
@@ -83,18 +84,18 @@ func run(args []string) error {
 		if err != nil {
 			return err
 		}
-		fmt.Fprintln(stdout, v)
+		_, _ = fmt.Fprintln(stdout, v)
 	case "set":
 		key, value := args[2], args[3]
 		if err := set(dir, key, value); err != nil {
 			return err
 		}
-		fmt.Fprintf(stderr, "set %q\n", key)
+		_, _ = fmt.Fprintf(stderr, "set %q\n", key)
 	case "del":
 		if err := del(dir, args[2]); err != nil {
 			return err
 		}
-		fmt.Fprintf(stderr, "deleted %q\n", args[2])
+		_, _ = fmt.Fprintf(stderr, "deleted %q\n", args[2])
 	}
 	return nil
 }
@@ -149,7 +150,7 @@ func ls(dir string) error {
 			}
 			if d.Type().IsRegular() {
 				if p, err := filepath.Rel(dir, path); err == nil {
-					fmt.Fprintln(stdout, filepath.ToSlash(p))
+					_, _ = fmt.Fprintln(stdout, filepath.ToSlash(p))
 				}
 			}
 			return nil
